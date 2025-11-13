@@ -76,8 +76,12 @@ namespace CHS_Rechnungen
             var result = getNumbers();
             if (result != null)
             {
-                TXT_BOX_EA.Text = Helper.DataTabelWhereAsRow(result, "rechnungs_nummer")[2];
-                textBox4.Text = Helper.DataTabelWhereAsRow(result, "angebots_nummer")[2];
+                TXT_BOX_Prefix_1.Text = Helper.DataTabelWhereAsRow(result, "rechnungs_nummer")[2];
+                TXT_BOX_Prefix_2.Text = Helper.DataTabelWhereAsRow(result, "angebots_nummer")[2];
+                //TXT_BOX_Prefix_3.Text = Helper.DataTabelWhereAsRow(result, "vertrags_nummer")[2];
+                //TXT_BOX_Prefix_4.Text = Helper.DataTabelWhereAsRow(result, "winterdient_nummer")[2];
+
+                //CMBO_BOX_DATE_1.SelectedIndex = 2;
             }
             else
             {
