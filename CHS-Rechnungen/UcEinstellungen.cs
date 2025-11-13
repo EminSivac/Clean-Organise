@@ -1,8 +1,10 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -15,14 +17,8 @@ namespace CHS_Rechnungen
         public UcEinstellungen()
         {
             InitializeComponent();
+            InitializeNumbers();
         }
-
-        private void btnRechnungVorlage_Click(object sender, EventArgs e)
-        {
-            string filePath = "RechnungVorlage.xlsx";
-            openTemplate(filePath);
-        }
-
 
         private void openTemplate(string filePath)
         {
@@ -75,6 +71,37 @@ namespace CHS_Rechnungen
             }
         }
 
+        private void InitializeNumbers()
+        {
+            var result = getNumbers();
+            if (result != null)
+            {
+                TXT_BOX_EA.Text = Helper.DataTabelWhereAsRow(result, "rechnungs_nummer")[2];
+                textBox4.Text = Helper.DataTabelWhereAsRow(result, "angebots_nummer")[2];
+            }
+            else
+            {
+                //Put Empty into DB
+            }
+        }
+
+        private DataTable getNumbers()
+        {
+            var result = SqlHandler.Select("SELECT * FROM `nummernkreise`");
+            if(result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        #region UI_Events
+        private void btnRechnungVorlage_Click(object sender, EventArgs e)
+        {
+            string filePath = "RechnungVorlage.xlsx";
+            openTemplate(filePath);
+        }
+
         private void btnAngebotVorlage_Click(object sender, EventArgs e)
         {
             string filePath = "AngebotVorlage.xlsx";
@@ -92,5 +119,6 @@ namespace CHS_Rechnungen
             string filePath = "WinterdienstVorlage.xlsx";
             openTemplate(filePath);
         }
+        #endregion
     }
 }

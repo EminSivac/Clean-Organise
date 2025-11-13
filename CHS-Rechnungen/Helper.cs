@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Common;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -70,6 +71,47 @@ namespace CHS_Rechnungen
                 dt.Rows.Add(row.ToArray());
 
             return dt;
+        }
+
+        public static string DataTabelOneValueOnly(DataTable dt, int row, int column)
+        {
+            return dt.Rows[row].ItemArray[column].ToString();
+        }
+
+        public static string[] DataTabelWhereAsRow(DataTable dt, string search)
+        {
+            string[] result = null;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    if (search == dt.Rows[i].ItemArray[j].ToString())
+                    {
+                        result = new string[dt.Columns.Count];
+                        for (int k = 0; k < dt.Columns.Count; k++)
+                        {
+                            result[k] = dt.Rows[i].ItemArray[k].ToString();
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static string DataTabelWhereSearchColumn(DataTable dt, string search)
+        {
+            string result = "";
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    if (search == dt.Rows[i].ItemArray[j].ToString())
+                    {
+                        result = dt.Rows[i].ItemArray[j].ToString();
+                    }
+                }
+            }
+            return result;
         }
     }
 }

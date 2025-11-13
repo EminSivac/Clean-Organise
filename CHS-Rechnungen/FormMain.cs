@@ -8,6 +8,7 @@ namespace CHS_Rechnungen
         public FormMain()
         {
             InitializeComponent();
+            LoadUserControl(new UcDashboard());
         }
 
         private void LoadUserControl(UserControl uc)

@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            var label = SqlHandler.Select("SELECT * FROM datum_format");
-
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcEinstellungen));
             label1 = new Label();
-            textBox1 = new TextBox();
+            TXT_BOX_EA = new TextBox();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -84,13 +83,13 @@
             label1.TabIndex = 0;
             label1.Text = "Rechnungsnummer:";
             // 
-            // textBox1
+            // TXT_BOX_EA
             // 
-            textBox1.Location = new Point(426, 140);
-            textBox1.Margin = new Padding(3, 4, 3, 4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(114, 27);
-            textBox1.TabIndex = 1;
+            TXT_BOX_EA.Location = new Point(426, 140);
+            TXT_BOX_EA.Margin = new Padding(3, 4, 3, 4);
+            TXT_BOX_EA.Name = "TXT_BOX_EA";
+            TXT_BOX_EA.Size = new Size(114, 27);
+            TXT_BOX_EA.TabIndex = 1;
             // 
             // label2
             // 
@@ -129,16 +128,14 @@
             // 
             // comboBox1
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.DataSource = label;
             comboBox1.DisplayMember = "value";
-            comboBox1.ValueMember = "datum_format_id";
-            comboBox1.SelectedValue = 3;
+            comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(547, 140);
             comboBox1.Margin = new Padding(3, 4, 3, 4);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(138, 28);
             comboBox1.TabIndex = 7;
+            comboBox1.ValueMember = "datum_format_id";
             // 
             // comboBox2
             // 
@@ -180,15 +177,14 @@
             // 
             // comboBox4
             // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.DataSource = label;
             comboBox4.DisplayMember = "value";
-            comboBox4.ValueMember = "datum_format_id";
+            comboBox4.FormattingEnabled = true;
             comboBox4.Location = new Point(547, 233);
             comboBox4.Margin = new Padding(3, 4, 3, 4);
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(138, 28);
             comboBox4.TabIndex = 16;
+            comboBox4.ValueMember = "datum_format_id";
             // 
             // label7
             // 
@@ -264,15 +260,14 @@
             // 
             // comboBox6
             // 
-            comboBox6.FormattingEnabled = true;
-            comboBox6.DataSource = label;
             comboBox6.DisplayMember = "value";
-            comboBox6.ValueMember = "datum_format_id";
+            comboBox6.FormattingEnabled = true;
             comboBox6.Location = new Point(547, 327);
             comboBox6.Margin = new Padding(3, 4, 3, 4);
             comboBox6.Name = "comboBox6";
             comboBox6.Size = new Size(138, 28);
             comboBox6.TabIndex = 25;
+            comboBox6.ValueMember = "datum_format_id";
             // 
             // label12
             // 
@@ -348,15 +343,14 @@
             // 
             // comboBox8
             // 
-            comboBox8.FormattingEnabled = true;
-            comboBox8.DataSource = label;
             comboBox8.DisplayMember = "value";
-            comboBox8.ValueMember = "datum_format_id";
+            comboBox8.FormattingEnabled = true;
             comboBox8.Location = new Point(547, 420);
             comboBox8.Margin = new Padding(3, 4, 3, 4);
             comboBox8.Name = "comboBox8";
             comboBox8.Size = new Size(138, 28);
             comboBox8.TabIndex = 34;
+            comboBox8.ValueMember = "datum_format_id";
             // 
             // label17
             // 
@@ -519,7 +513,7 @@
             Controls.Add(textBox3);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(TXT_BOX_EA);
             Controls.Add(label1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "UcEinstellungen";
@@ -531,7 +525,7 @@
         #endregion
 
         private Label label1;
-        private TextBox textBox1;
+        private TextBox TXT_BOX_EA;
         private Label label2;
         private Label label3;
         private Label label4;
