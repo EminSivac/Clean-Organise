@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Mysqlx.Session;
 using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
@@ -76,27 +77,42 @@ namespace CHS_Rechnungen
             var result = getNumbers();
             if (result != null)
             {
-                TXT_BOX_Prefix_1.Text = Helper.DataTabelWhereAsRow(result, "rechnungs_nummer")[2];
-                TXT_BOX_Prefix_2.Text = Helper.DataTabelWhereAsRow(result, "angebots_nummer")[2];
-                //TXT_BOX_Prefix_3.Text = Helper.DataTabelWhereAsRow(result, "vertrags_nummer")[2];
-                //TXT_BOX_Prefix_4.Text = Helper.DataTabelWhereAsRow(result, "winterdient_nummer")[2];
+                fillNumbersIfPosible(result, "rechnungs_nummer", 2, TXT_BOX_Prefix_1, 1);
+                fillNumbersIfPosible(result, "angebots_nummer", 2, TXT_BOX_Prefix_2, 2);
+                fillNumbersIfPosible(result, "vertrags_nummer", 2, TXT_BOX_Prefix_3, 3);
+                fillNumbersIfPosible(result, "winterdient_nummer", 2, TXT_BOX_Prefix_4, 4);
 
-                //CMBO_BOX_DATE_1.SelectedIndex = 2;
+                CMBO_BOX_DATE_1.SelectedIndex = ;
             }
             else
             {
                 //Put Empty into DB
+                SqlHandler.Post("");
             }
         }
 
         private DataTable getNumbers()
         {
             var result = SqlHandler.Select("SELECT * FROM `nummernkreise`");
-            if(result != null)
+            if (result != null)
             {
                 return result;
             }
             return null;
+        }
+
+        private void fillNumbersIfPosible(DataTable result, string search, int column, TextBox textBox, int nummerkreisId)
+        {
+            var text = Helper.DataTableWhereAsRow(result, "name", search);
+
+            if (text == null)
+            {
+                SqlHandler.Post($"REPLACE INTO `nummernkreise` (`nummerkreise_id`, `name`, `prefix`, `suffix`, `datum_format`, `laufende_nummer`) VALUES ('{nummerkreisId}', '{search}', 'RE', '', '1', '1') ");
+
+                text = Helper.DataTableWhereAsRow(getNumbers(), "name", search);
+            }
+
+            textBox.Text = text[column];
         }
 
         #region UI_Events

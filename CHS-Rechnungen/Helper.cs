@@ -73,32 +73,25 @@ namespace CHS_Rechnungen
             return dt;
         }
 
-        public static string DataTabelOneValueOnly(DataTable dt, int row, int column)
+        public static string DataTableOneValueOnly(DataTable dt, int row, int column)
         {
             return dt.Rows[row].ItemArray[column].ToString();
         }
 
-        public static string[] DataTabelWhereAsRow(DataTable dt, string search)
+        public static string[]? DataTableWhereAsRow(DataTable dt, string columnName, string search)
         {
-            string[] result = null;
-            for (int i = 0; i < dt.Rows.Count; i++)
+            foreach (DataRow row in dt.Rows)
             {
-                for (int j = 0; j < dt.Columns.Count; j++)
+                if (row[columnName]?.ToString() == search)
                 {
-                    if (search == dt.Rows[i].ItemArray[j].ToString())
-                    {
-                        result = new string[dt.Columns.Count];
-                        for (int k = 0; k < dt.Columns.Count; k++)
-                        {
-                            result[k] = dt.Rows[i].ItemArray[k].ToString();
-                        }
-                    }
+                    return row.ItemArray.Select(x => x?.ToString() ?? "").ToArray();
                 }
             }
-            return result;
+            return null;
         }
 
-        public static string DataTabelWhereSearchColumn(DataTable dt, string search)
+
+        public static string DataTableWhereSearchColumn(DataTable dt, string search)
         {
             string result = "";
             for (int i = 0; i < dt.Rows.Count; i++)
