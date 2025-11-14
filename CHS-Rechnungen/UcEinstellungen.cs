@@ -82,7 +82,7 @@ namespace CHS_Rechnungen
                 fillNumbersIfPosible(result, "vertrags_nummer", 2, TXT_BOX_Prefix_3, 3);
                 fillNumbersIfPosible(result, "winterdient_nummer", 2, TXT_BOX_Prefix_4, 4);
 
-                CMBO_BOX_DATE_1.SelectedIndex = ;
+                CMBO_BOX_NR_1.SelectedIndex = 1;
             }
             else
             {
