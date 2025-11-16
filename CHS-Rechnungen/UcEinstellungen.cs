@@ -75,25 +75,56 @@ namespace CHS_Rechnungen
         private void InitializeNumbers()
         {
             var result = getNumbers();
-            if (result != null)
-            {
-                fillNumbersIfPosible(result, "rechnungs_nummer", 2, TXT_BOX_Prefix_1, 1);
-                fillNumbersIfPosible(result, "angebots_nummer", 2, TXT_BOX_Prefix_2, 2);
-                fillNumbersIfPosible(result, "vertrags_nummer", 2, TXT_BOX_Prefix_3, 3);
-                fillNumbersIfPosible(result, "winterdient_nummer", 2, TXT_BOX_Prefix_4, 4);
+            var date_formats = getDateFormats();
+            setDateFormats(date_formats);
 
-                CMBO_BOX_NR_1.SelectedIndex = 1;
-            }
-            else
+            fillNumbersIfPosible(result, "rechnungs_nummer", 2, TXT_BOX_Prefix_1, 1);
+            fillNumbersIfPosible(result, "angebots_nummer", 2, TXT_BOX_Prefix_2, 2);
+            fillNumbersIfPosible(result, "vertrags_nummer", 2, TXT_BOX_Prefix_3, 3);
+            fillNumbersIfPosible(result, "winterdient_nummer", 2, TXT_BOX_Prefix_4, 4);
+
+            fillNumbersIfPosible(result, "rechnungs_nummer", 3, TXT_BOX_Suffix_1, 1);
+            fillNumbersIfPosible(result, "angebots_nummer", 3, TXT_BOX_Suffix_2, 2);
+            fillNumbersIfPosible(result, "vertrags_nummer", 3, TXT_BOX_Suffix_3, 3);
+            fillNumbersIfPosible(result, "winterdient_nummer", 3, TXT_BOX_Suffix_4, 4);
+
+            CMBO_BOX_NR_1.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 0, 5));
+            CMBO_BOX_NR_2.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 1, 5));
+            CMBO_BOX_NR_3.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 2, 5));
+            CMBO_BOX_NR_4.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 3, 5));
+
+            CMBO_BOX_DATE_1.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 0, 4));
+            CMBO_BOX_DATE_2.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 1, 4));
+            CMBO_BOX_DATE_3.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 2, 4));
+            CMBO_BOX_DATE_4.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 3, 4));
+        }
+
+        private void setDateFormats(DataTable date_formats)
+        {
+            string[] strings = new string[4];
+            for (int i = 0; i < 4; i++)
             {
-                //Put Empty into DB
-                SqlHandler.Post("");
+                strings[i] = Helper.DataTableOneValueOnly(date_formats, i, 1);
             }
+
+            CMBO_BOX_DATE_1.Items.AddRange(strings);
+            CMBO_BOX_DATE_2.Items.AddRange(strings);
+            CMBO_BOX_DATE_3.Items.AddRange(strings);
+            CMBO_BOX_DATE_4.Items.AddRange(strings);
         }
 
         private DataTable getNumbers()
         {
             var result = SqlHandler.Select("SELECT * FROM `nummernkreise`");
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+        private DataTable getDateFormats()
+        {
+            var result = SqlHandler.Select("SELECT * FROM `datum_format`");
             if (result != null)
             {
                 return result;
@@ -107,7 +138,7 @@ namespace CHS_Rechnungen
 
             if (text == null)
             {
-                SqlHandler.Post($"REPLACE INTO `nummernkreise` (`nummerkreise_id`, `name`, `prefix`, `suffix`, `datum_format`, `laufende_nummer`) VALUES ('{nummerkreisId}', '{search}', 'RE', '', '1', '1') ");
+                SqlHandler.Post($"REPLACE INTO `nummernkreise` (`nummerkreise_id`, `name`, `prefix`, `suffix`, `datum_format`, `laufende_nummer`) VALUES ('{nummerkreisId}', '{search}', '', '', '1', '1') ");
 
                 text = Helper.DataTableWhereAsRow(getNumbers(), "name", search);
             }
