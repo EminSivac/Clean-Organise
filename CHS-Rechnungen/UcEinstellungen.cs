@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Mysqlx.Session;
@@ -19,6 +20,7 @@ namespace CHS_Rechnungen
         {
             InitializeComponent();
             InitializeNumbers();
+            btnSaveAll.Visible = false;
         }
 
         private void openTemplate(string filePath)
@@ -99,7 +101,7 @@ namespace CHS_Rechnungen
             CMBO_BOX_DATE_4.SelectedIndex = int.Parse(Helper.DataTableOneValueOnly(result, 3, 4));
         }
 
-        private void setDateFormats(DataTable date_formats)
+        private void setDateFormats(System.Data.DataTable date_formats)
         {
             string[] strings = new string[4];
             for (int i = 0; i < 4; i++)
@@ -113,7 +115,7 @@ namespace CHS_Rechnungen
             CMBO_BOX_DATE_4.Items.AddRange(strings);
         }
 
-        private DataTable getNumbers()
+        private System.Data.DataTable getNumbers()
         {
             var result = SqlHandler.Select("SELECT * FROM `nummernkreise`");
             if (result != null)
@@ -122,7 +124,7 @@ namespace CHS_Rechnungen
             }
             return null;
         }
-        private DataTable getDateFormats()
+        private System.Data.DataTable getDateFormats()
         {
             var result = SqlHandler.Select("SELECT * FROM `datum_format`");
             if (result != null)
@@ -132,7 +134,7 @@ namespace CHS_Rechnungen
             return null;
         }
 
-        private void fillNumbersIfPosible(DataTable result, string search, int column, TextBox textBox, int nummerkreisId)
+        private void fillNumbersIfPosible(System.Data.DataTable result, string search, int column, TextBox textBox, int nummerkreisId)
         {
             var text = Helper.DataTableWhereAsRow(result, "name", search);
 
@@ -171,5 +173,28 @@ namespace CHS_Rechnungen
             openTemplate(filePath);
         }
         #endregion
+
+        private void updateNummerkreise(string nummerkreise_id, string name, string prefix, string suffix, string datum_format, string laufende_nummer)
+        {
+            SqlHandler.Post($"REPLACE INTO `nummernkreise` (`nummerkreise_id`, `name`, `prefix`, `suffix`, `datum_format`, `laufende_nummer`) VALUES ('{nummerkreise_id}', '{name}', '{prefix}', '{suffix}', {datum_format}, {laufende_nummer}) ");
+        }
+
+        private void btnSaveAll_Click(object sender, EventArgs e)
+        {
+            updateNummerkreise("1", "rechnungs_nummer", TXT_BOX_Prefix_1.Text, TXT_BOX_Suffix_1.Text, CMBO_BOX_DATE_1.SelectedIndex.ToString(), CMBO_BOX_NR_1.SelectedIndex.ToString());
+
+            updateNummerkreise("2", "angebots_nummer", TXT_BOX_Prefix_2.Text, TXT_BOX_Suffix_2.Text, CMBO_BOX_DATE_2.SelectedIndex.ToString(), CMBO_BOX_NR_2.SelectedIndex.ToString());
+
+            updateNummerkreise("3", "vertrags_nummer", TXT_BOX_Prefix_3.Text, TXT_BOX_Suffix_3.Text, CMBO_BOX_DATE_3.SelectedIndex.ToString(), CMBO_BOX_NR_3.SelectedIndex.ToString());
+
+            updateNummerkreise("4", "winterdient_nummer", TXT_BOX_Prefix_4.Text, TXT_BOX_Suffix_4.Text, CMBO_BOX_DATE_4.SelectedIndex.ToString(), CMBO_BOX_NR_4.SelectedIndex.ToString());
+
+            btnSaveAll.Visible = false;
+        }
+
+        private void showSaveAll(object sender, EventArgs e)
+        {
+            btnSaveAll.Visible = true;
+        }
     }
 }

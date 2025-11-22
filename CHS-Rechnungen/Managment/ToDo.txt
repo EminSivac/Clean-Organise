@@ -1,5 +1,5 @@
 Number	|						ToDo								|	Done
 -----------------------------------------------------------------------
 1		|UcEinstellungen bei change direkt in DB speichern			|
-2		|Kein erneutes Laden bei klick auf schon offenes Fenster	|
+2		|Kein erneutes Laden bei klick auf schon offenes Fenster	|X
 3		|

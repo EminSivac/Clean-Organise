@@ -13,10 +13,15 @@ namespace CHS_Rechnungen
 
         private void LoadUserControl(UserControl uc)
         {
-            panelRight.Controls.Clear();
-            uc.Dock = DockStyle.Fill;
-            panelRight.Controls.Add(uc);
+            if (panelRight.Controls.Count == 0 ||
+                panelRight.Controls[0].GetType() != uc.GetType())
+            {
+                panelRight.Controls.Clear();
+                uc.Dock = DockStyle.Fill;
+                panelRight.Controls.Add(uc);
+            }
         }
+
 
         #region UiEvents
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
