@@ -13,10 +13,7 @@ namespace CHS_Rechnungen
     {
         private DBConnection()
         {
-            Server = "217.154.240.182";
-            DatabaseName = "rechnungen";
-            UserName = "remote";
-            Password = "Imq@82Th7#fDIFac0n#RbF0sO8lJJtVT";
+            
         }
 
         public string Server { get; set; }
